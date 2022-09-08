@@ -7,7 +7,7 @@
     ],
     "strict": true,
     "rootDir": ".",
-    "outDir": "dist",
+    "outDir": "public",
     "sourceMap": true,
     "esModuleInterop": true
   }
