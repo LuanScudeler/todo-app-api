@@ -7,7 +7,8 @@ export const server = new ApolloServer({
   context,
 })
 
-const port = 3030
-server.listen({ port }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`)
-})
+module.exports = (req, res) => {
+  server.start().then(() => console.log('Server started'))
+
+  res.status(200).send(`Hello world!`)
+}
