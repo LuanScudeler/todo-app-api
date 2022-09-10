@@ -12,6 +12,7 @@ app.use(cors())
 app.use(express.json())
 
 const httpServer = http.createServer(app)
+
 const startApolloServer = async (app: any, httpServer: any) => {
   const server = new ApolloServer({
     schema,
