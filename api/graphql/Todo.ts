@@ -68,7 +68,7 @@ export const TodoMutation = extendType({
     t.nonNull.field('delete', {
       type: 'Todo',
       args: {
-        id: nonNull(stringArg()),
+        id: nonNull(idArg()),
       },
       resolve(_, args, context) {
         const { id } = args

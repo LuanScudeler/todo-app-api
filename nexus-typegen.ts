@@ -98,7 +98,7 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     delete: { // args
-      id: string; // String!
+      id: string; // ID!
     }
     post: { // args
       title: string; // String!
