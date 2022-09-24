@@ -7,6 +7,14 @@ export const Todo = objectType({
     t.nonNull.string('id')
     t.nonNull.string('title')
     t.nonNull.dateTime('createdAt')
+    t.field('createdBy', {
+      type: 'User',
+      resolve(parent, _, context) {
+        return context.prisma.todos
+          .findUnique({ where: { id: parent.id } })
+          .createdBy()
+      },
+    })
   },
 })
 

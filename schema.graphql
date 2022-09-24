@@ -19,6 +19,14 @@ type Query {
 
 type Todo {
   createdAt: DateTime!
+  createdBy: User
   id: String!
   title: String!
+}
+
+type User {
+  email: String!
+  id: String!
+  name: String!
+  todos: [Todo!]!
 }

@@ -51,6 +51,11 @@ export interface NexusGenObjects {
     id: string; // String!
     title: string; // String!
   }
+  User: { // root type
+    email: string; // String!
+    id: string; // String!
+    name: string; // String!
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -74,8 +79,15 @@ export interface NexusGenFieldTypes {
   }
   Todo: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    createdBy: NexusGenRootTypes['User'] | null; // User
     id: string; // String!
     title: string; // String!
+  }
+  User: { // field return type
+    email: string; // String!
+    id: string; // String!
+    name: string; // String!
+    todos: NexusGenRootTypes['Todo'][]; // [Todo!]!
   }
 }
 
@@ -90,8 +102,15 @@ export interface NexusGenFieldTypeNames {
   }
   Todo: { // field return type name
     createdAt: 'DateTime'
+    createdBy: 'User'
     id: 'String'
     title: 'String'
+  }
+  User: { // field return type name
+    email: 'String'
+    id: 'String'
+    name: 'String'
+    todos: 'Todo'
   }
 }
 
