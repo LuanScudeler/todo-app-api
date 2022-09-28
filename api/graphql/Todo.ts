@@ -38,13 +38,18 @@ export const TodoMutation = extendType({
       args: {
         title: nonNull(stringArg()),
       },
-
       resolve(_, args, context) {
         const { title } = args
+        const { userId } = context
+
+        if (!userId) {
+          throw new Error('Cannot post without logging in.')
+        }
 
         const newTodo = context.prisma.todos.create({
           data: {
             title,
+            createdBy: { connect: { id: userId } },
           },
         })
 
@@ -57,7 +62,6 @@ export const TodoMutation = extendType({
         id: nonNull(idArg()),
         title: nonNull(stringArg()),
       },
-
       resolve(_, args, context) {
         const { id, title } = args
 
