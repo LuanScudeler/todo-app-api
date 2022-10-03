@@ -34,6 +34,16 @@ export const AuthMutation = extendType({
           throw new Error('Invalid password')
         }
 
+        // TODO: Replace jwt with express session
+        context.req.session.userId = user.id
+        await new Promise((resolve) => {
+          context.req.session.save(function (err) {
+            if (err) throw new Error('Session error')
+
+            resolve()
+          })
+        })
+
         const token = jwt.sign(
           { userId: user.id },
           process.env.APP_SECRET as string
