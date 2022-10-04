@@ -22,9 +22,11 @@ export const AuthMutation = extendType({
         password: nonNull(stringArg()),
       },
       async resolve(_, args, context) {
-        const user = await context.prisma.users.findUnique({
+        const { prisma, req } = context
+        const user = await prisma.users.findUnique({
           where: { email: args.email },
         })
+
         if (!user) {
           throw new Error('No such user found')
         }
@@ -34,10 +36,9 @@ export const AuthMutation = extendType({
           throw new Error('Invalid password')
         }
 
-        // TODO: Replace jwt with express session
-        context.req.session.userId = user.id
+        req.session.userId = user.id
         await new Promise((resolve) => {
-          context.req.session.save(function (err) {
+          req.session.save(function (err) {
             if (err) throw new Error('Session error')
 
             resolve()
@@ -50,7 +51,6 @@ export const AuthMutation = extendType({
         )
 
         return {
-          token,
           user,
         }
       },

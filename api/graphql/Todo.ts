@@ -1,5 +1,5 @@
-import { ObjectId } from 'bson'
 import { extendType, idArg, nonNull, objectType, stringArg } from 'nexus'
+import { isAuthenticated } from '../utils/auth'
 
 export const Todo = objectType({
   name: 'Todo',
@@ -24,7 +24,13 @@ export const TodoQuery = extendType({
     t.nonNull.list.nonNull.field('todos', {
       type: 'Todo',
       resolve(_, __, context) {
-        return context.prisma.todos.findMany()
+        const { userId } = context
+
+        isAuthenticated(userId)
+
+        return context.prisma.users
+          .findUnique({ where: { id: userId } })
+          .todos()
       },
     })
   },
@@ -42,9 +48,7 @@ export const TodoMutation = extendType({
         const { title } = args
         const { userId } = context
 
-        if (!userId) {
-          throw new Error('Cannot post without logging in.')
-        }
+        isAuthenticated(userId)
 
         const newTodo = context.prisma.todos.create({
           data: {
