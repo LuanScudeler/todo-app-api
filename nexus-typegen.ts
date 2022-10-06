@@ -45,7 +45,6 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   AuthPayload: { // root type
-    token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
   Mutation: {};
@@ -74,17 +73,18 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
   AuthPayload: { // field return type
-    token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
   Mutation: { // field return type
     delete: NexusGenRootTypes['Todo']; // Todo!
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    logout: boolean; // Boolean!
     post: NexusGenRootTypes['Todo']; // Todo!
     signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     update: NexusGenRootTypes['Todo']; // Todo!
   }
   Query: { // field return type
+    isAuthenticated: boolean; // Boolean!
     todos: NexusGenRootTypes['Todo'][]; // [Todo!]!
   }
   Todo: { // field return type
@@ -103,17 +103,18 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   AuthPayload: { // field return type name
-    token: 'String'
     user: 'User'
   }
   Mutation: { // field return type name
     delete: 'Todo'
     login: 'AuthPayload'
+    logout: 'Boolean'
     post: 'Todo'
     signup: 'AuthPayload'
     update: 'Todo'
   }
   Query: { // field return type name
+    isAuthenticated: 'Boolean'
     todos: 'Todo'
   }
   Todo: { // field return type name

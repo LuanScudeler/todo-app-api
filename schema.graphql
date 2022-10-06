@@ -3,7 +3,6 @@
 
 
 type AuthPayload {
-  token: String!
   user: User!
 }
 
@@ -15,12 +14,14 @@ scalar DateTime
 type Mutation {
   delete(id: ID!): Todo!
   login(email: String!, password: String!): AuthPayload!
+  logout: Boolean!
   post(title: String!): Todo!
   signup(email: String!, name: String!, password: String!): AuthPayload!
   update(id: ID!, title: String!): Todo!
 }
 
 type Query {
+  isAuthenticated: Boolean!
   todos: [Todo!]!
 }
 

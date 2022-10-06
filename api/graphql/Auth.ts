@@ -5,9 +5,26 @@ import * as jwt from 'jsonwebtoken'
 export const AuthPayload = objectType({
   name: 'AuthPayload',
   definition(t) {
-    t.nonNull.string('token')
     t.nonNull.field('user', {
       type: 'User',
+    })
+  },
+})
+
+export const AuthQuery = extendType({
+  type: 'Query',
+  definition(t) {
+    t.nonNull.field('isAuthenticated', {
+      type: 'Boolean',
+      resolve(_, __, context) {
+        const { req } = context
+
+        if (req.session.userId) {
+          return true
+        }
+
+        return false
+      },
     })
   },
 })
@@ -38,10 +55,10 @@ export const AuthMutation = extendType({
 
         req.session.userId = user.id
         await new Promise((resolve) => {
-          req.session.save(function (err) {
+          req.session.save(function (err: any) {
             if (err) throw new Error('Session error')
 
-            resolve()
+            resolve(true)
           })
         })
 
@@ -53,6 +70,23 @@ export const AuthMutation = extendType({
         return {
           user,
         }
+      },
+    })
+    t.nonNull.field('logout', {
+      type: 'Boolean',
+      async resolve(_, __, context) {
+        const { req } = context
+
+        req.session.userId = undefined
+        await new Promise((resolve) => {
+          req.session.save(function (err: any) {
+            if (err) throw new Error('Session error')
+
+            resolve(true)
+          })
+        })
+
+        return true
       },
     })
     t.nonNull.field('signup', {

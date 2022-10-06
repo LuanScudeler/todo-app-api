@@ -4,12 +4,19 @@ import { Request } from 'express'
 
 export const prisma = new PrismaClient()
 
+type RequestWithSession = Request & {
+  session: {
+    userId?: string
+    save: any
+  }
+}
 export interface Context {
   prisma: PrismaClient
-  userId?: number
+  userId?: string
+  req: RequestWithSession
 }
 
-export const context = ({ req }: { req: Request }): Context => {
+export const context = ({ req }: { req: RequestWithSession }): Context => {
   const token =
     req && req.headers.authorization
       ? decodeAuthHeader(req.headers.authorization)
