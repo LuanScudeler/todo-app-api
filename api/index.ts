@@ -15,14 +15,18 @@ const app = express()
 app.use(
   session({
     secret: process.env.SESSION_SECRET as string,
-    cookie: { secure: false, maxAge: 60000 },
+    cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 60000 },
     saveUninitialized: true,
     resave: true,
   })
 )
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://studio.apollographql.com'],
+  origin: [
+    'http://localhost:5173',
+    'https://studio.apollographql.com',
+    'https://famous-lily-1dcd39.netlify.app',
+  ],
   credentials: true,
 }
 
