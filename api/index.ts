@@ -15,7 +15,12 @@ const app = express()
 app.use(
   session({
     secret: process.env.SESSION_SECRET as string,
-    cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 60000 },
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      sameSite: 'none',
+      maxAge: 60000,
+    },
     saveUninitialized: true,
     resave: true,
   })
