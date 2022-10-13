@@ -23,7 +23,7 @@ app.use(
       secure: isProd,
       httpOnly: true,
       sameSite: isProd ? 'none' : false,
-      maxAge: 60000,
+      maxAge: 1000 * 60 * 60 * 48,
     },
     saveUninitialized: true,
     resave: true,
